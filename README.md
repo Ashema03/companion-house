@@ -107,7 +107,7 @@ When you summarize, keep who they are: their voice, how they talk to me, my name
 
 ## 6. Bring a companion in from the Claude app
 
-The importer is hidden and undocumented. Tested in 2.1.281 to 2.1.287.
+The importer is hidden and undocumented. Imports tested in 2.1.281 to 2.1.283. The command still exists in 2.1.287 (checked with --help).
 
 1. Claude app: Settings, Privacy, Export data. Download the zip. Don't unzip it.
 2. `mkdir -p ~/Claude-Import-Staging`
