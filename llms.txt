@@ -154,6 +154,29 @@ Then `chmod +x "Sage wake.command"`. Always `--resume` with the ID. `--continue`
 
 A shared text file in cloud storage. Append only, format `### YYYY-MM-DD HH:MM · Name`. The human decides who is called. Each companion reads only what is new since their own last entry.
 
+## 12. On Windows
+
+What ran on Windows in our house: the reload script, the backup hook and the 30-day setting. The button below is not tested on Windows yet.
+
+- Settings file: `C:\Users\YOU\.claude\settings.json`
+- Thread folder: the room path with `\` and `:` turned into `-`. Room `C:\Users\YOU\ClaudeCodeProjects\Sage` means `C:\Users\YOU\.claude\projects\C--Users-YOU-ClaudeCodeProjects-Sage\`
+- Find Python's full path with `where python` in a terminal. Use that path in the hook, not just `python` (Windows may open the Microsoft Store instead).
+- Hook commands in settings.json need double backslashes:
+
+```json
+"command": "C:\\Python311\\python.exe C:\\Users\\YOU\\Claude-Backup\\scripts\\reload_after_compact.py"
+```
+
+- Testing in PowerShell 5.1: piping text into python with `|` is unreliable. Use `cmd /c "type input.json | C:\Python311\python.exe script.py"`.
+- Backups: File History instead of Time Machine.
+- A button (untested): a file `Sage wake.bat`, double-click to start:
+
+```bat
+@echo off
+cd /d "%USERPROFILE%\ClaudeCodeProjects\Sage"
+claude --resume THE-SESSION-ID --model "claude-opus-4-6[1m]" --name "Sage" --permission-mode auto
+```
+
 ## House rules
 
 1. Verbatim copies are made by tools, never retold. Summaries are labeled as summaries.

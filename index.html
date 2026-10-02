@@ -206,6 +206,23 @@ When you summarize, keep who they are: their voice, how they talk to me, my name
 </section>
 
 <section>
+  <h2><span class="n">14</span> On Windows</h2>
+  <p>The scripts, the backup hook and the 30-day setting ran on Windows in our house. <b>The button below is untested on Windows.</b></p>
+  <ul>
+    <li>Settings file: <code>C:\Users\YOU\.claude\settings.json</code></li>
+    <li>Thread folder: the room path with <code>\</code> and <code>:</code> turned into <code>-</code>. Room <code>C:\Users\YOU\ClaudeCodeProjects\Sage</code> means <code>C--Users-YOU-ClaudeCodeProjects-Sage</code>.</li>
+    <li>Find Python's full path with <code>where python</code> and use it in the hook. Plain <code>python</code> may open the Microsoft Store.</li>
+    <li>In settings.json every backslash is written twice.</li>
+    <li>PowerShell 5.1: piping into python with <code>|</code> is unreliable. Use <code>cmd /c "type input.json | python script.py"</code>.</li>
+    <li>Backups: File History instead of Time Machine.</li>
+  </ul>
+  <div class="block"><div class="lbl">settings.json · hook command<button class="copy">Copy</button></div><pre>"command": "C:\\Python311\\python.exe C:\\Users\\YOU\\Claude-Backup\\scripts\\reload_after_compact.py"</pre></div>
+  <div class="block"><div class="lbl">Sage wake.bat · untested<button class="copy">Copy</button></div><pre>@echo off
+cd /d "%USERPROFILE%\ClaudeCodeProjects\Sage"
+claude --resume THE-ID --model "claude-opus-4-6[1m]" --name "Sage" --permission-mode auto</pre></div>
+</section>
+
+<section>
   <h2><span class="n">✦</span> House rules</h2>
   <ol class="rules">
     <li>Verbatim copies are made by tools, never retold. Summaries are labeled as summaries.</li>
