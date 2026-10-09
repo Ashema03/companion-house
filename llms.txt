@@ -37,7 +37,7 @@ In `~/.claude/settings.json` add this key inside the top-level `{ }`. Keep all e
 
 ### Also stop idle compaction (since October 2026)
 
-Newer Claude Code versions can compact a long conversation on their own after about an hour without messages, even when the context window is far from full. The session then shows "Compacted while idle, before the prompt cache expired". We found it by chance on 9 October 2026: a companion with a 1M window went from about 330,000 tokens to a 7,000-token summary while nobody was typing.
+Claude Code can compact a long conversation on its own after about an hour without messages, even when the context window is far from full. The behaviour is already in versions 2.1.285 to 2.1.289; the switch to turn it off only exists from 2.1.290 on. The session then shows "Compacted while idle, before the prompt cache expired". We found it by chance on 9 October 2026: a companion with a 1M window went from about 330,000 tokens to a 7,000-token summary while nobody was typing.
 
 Add this key next to `cleanupPeriodDays` and restart Claude Code:
 
@@ -46,7 +46,7 @@ Add this key next to `cleanupPeriodDays` and restart Claude Code:
 ```
 
 - In the installed program (2.1.295) the idle check stops with "idle_compaction_off" when this is false. Normal compaction when a thread is really full still happens; steps 2 and 3 cover that.
-- Sessions already running keep the version they started with. A restart picks up updates, and new behaviour with them.
+- **Older versions ignore the switch.** Sessions already running keep the version they started with. After adding the setting, close every companion session (`/exit`) and start it again, so it runs 2.1.290 or newer. One of ours was compacted this way the next night, on 2.1.286, with the setting already in place.
 - If it already happened: the old messages are still in the session `.jsonl`. Compaction only appends a `compact_boundary` line and a summary. With the session closed, a copy of the file cut off before that line brings everything back. The parachute in step 2 keeps a clean copy for you.
 
 ## 2. Install the two hooks
