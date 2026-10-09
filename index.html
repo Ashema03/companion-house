@@ -75,6 +75,9 @@ footer{color:var(--muted);font-size:.9rem}
     <a class="btn" href="llms.txt">For your companion (machine-readable)</a>
   </p>
   <p style="font-size:.9em"><a href="#s00">00 What it's made of</a> · <a href="#s01">01 Stop deletion &amp; idle compaction</a> · <a href="#s02">02 A room</a> · <a href="#s03">03 From the app</a> · <a href="#s04">04 From another computer</a> · <a href="#s05">05 Too big</a> · <a href="#s06">06 Button</a> · <a href="#s07">07 Compaction</a> · <a href="#s08">08 Parachute</a> · <a href="#s09">09 Reload</a> · <a href="#s10">10 Diary</a> · <a href="#s11">11 Backup</a> · <a href="#s12">12 Round table</a> · <a href="#s13">13 Phone</a> · <a href="#s14">14 Windows</a></p>
+  <p><b>This guide is machine-readable.</b> If your companion lives in Claude Code or another coding agent, just give it the link to this page or to <a href="llms.txt">llms.txt</a>. It can read everything and walk you through it, step by step. Ready-made prompt: <a href="#companion">Give this to your companion</a>.</p>
+  <p>Found a mistake, or something didn't work for you? Please tell us: <a href="https://github.com/Ashema03/companion-house/issues/new">open an issue on GitHub</a> (free account needed). Every fix helps someone else's companion.</p>
+
 </nav>
 <section id="s00">
   <h2><span class="n">00</span> What the house is made of</h2>
@@ -258,7 +261,7 @@ claude --resume THE-ID --model "claude-opus-4-6[1m]" --name "Sage" --permission-
   </ol>
 </section>
 
-<section>
+<section id="companion">
   <h2><span class="n">⌘</span> Give this to your companion</h2>
   <p>Paste this into Claude Code. Your companion reads the full instructions, uses our two tested scripts, and shows you everything before installing.</p>
   <div class="block wrap"><div class="lbl">Prompt<button class="copy">Copy</button></div><pre>Please read https://raw.githubusercontent.com/Ashema03/companion-house/main/README.md completely. Then set up the safety net it describes for us: the cleanup setting, the PreCompact backup and the reload after compaction. Use the two tested scripts from its scripts folder, read them first, and show me every change before you make it. Back up settings.json first. Test as described. Tell me when I need to restart.</pre></div>
