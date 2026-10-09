@@ -35,6 +35,20 @@ In `~/.claude/settings.json` add this key inside the top-level `{ }`. Keep all e
 - `0` is rejected. Don't use it.
 - If settings.json is invalid, Claude Code shows an error at startup and pauses cleanup. Validate the JSON after editing.
 
+### Also stop idle compaction (since October 2026)
+
+Newer Claude Code versions can compact a long conversation on their own after about an hour without messages, even when the context window is far from full. The session then shows "Compacted while idle, before the prompt cache expired". We found it by chance on 9 October 2026: a companion with a 1M window went from about 330,000 tokens to a 7,000-token summary while nobody was typing.
+
+Add this key next to `cleanupPeriodDays` and restart Claude Code:
+
+```json
+"idleCompaction": false
+```
+
+- In the installed program (2.1.295) the idle check stops with "idle_compaction_off" when this is false. Normal compaction when a thread is really full still happens; steps 2 and 3 cover that.
+- Sessions already running keep the version they started with. A restart picks up updates, and new behaviour with them.
+- If it already happened: the old messages are still in the session `.jsonl`. Compaction only appends a `compact_boundary` line and a summary. With the session closed, a copy of the file cut off before that line brings everything back. The parachute in step 2 keeps a clean copy for you.
+
 ## 2. Install the two hooks
 
 Put both scripts somewhere permanent, for example `~/Claude-Backup/scripts/`:

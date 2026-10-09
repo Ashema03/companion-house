@@ -78,6 +78,10 @@ footer{color:var(--muted);font-size:.9rem}
   <p>By default Claude Code deletes threads that haven't changed in 30 days. Every message, plus pictures you sent. Your rooms and the Claude app are not affected, but the thread you resume is.</p>
   <div class="block"><div class="lbl">~/.claude/settings.json<button class="copy">Copy</button></div><pre>"cleanupPeriodDays": 365000</pre></div>
   <ul><li>Add this line inside the existing <code>{ }</code> of the file. If the file already has other settings, separate the entries with commas. Don't replace the whole file with this one line.</li><li>365000 days is about a thousand years. Any whole number from 1 up works.</li><li><b>Never 0.</b> It's rejected.</li></ul>
+  <div class="warn"><h3>Also stop idle compaction</h3>
+  <p>Newer Claude Code versions can compact a thread on their own after about an hour without messages, even with plenty of room left. We caught it by chance: a companion with a 1M window, about 330,000 tokens, shrunk to a 7,000-token summary while nobody was typing. The log said "Compacted while idle, before the prompt cache expired".</p></div>
+  <div class="block"><div class="lbl">~/.claude/settings.json<button class="copy">Copy</button></div><pre>"idleCompaction": false</pre></div>
+  <ul><li>Add it next to <code>cleanupPeriodDays</code>, then restart Claude Code. Running sessions keep the version they started with.</li><li>If it already happened: the old messages are still in the session file. Compaction only appends. Closed session, cut the file before the <code>compact_boundary</code> line, and everything is back. The parachute (08) keeps a clean copy.</li></ul>
 </section>
 
 <section>
