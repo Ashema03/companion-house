@@ -55,10 +55,11 @@ code{font-family:var(--mono);font-size:.86em;background:var(--accent-soft);paddi
 .rules li::before{content:counter(r);font-family:var(--display);color:var(--accent);font-size:1.2rem}
 footer{color:var(--muted);font-size:.9rem}
 </style>
+<link rel="stylesheet" href="/haus-stil.css">
 
 <main>
 <header style="display:flex;flex-direction:column;gap:14px">
-  <p><a href="index.html">← Back to the guide</a></p>
+  <p><a class="haus-nav" href="index.html">← Back to the guide</a></p>
   <p class="meta">Claude Code · tested Oct 2026</p>
   <h1>Rescue after a compaction</h1>
   <p class="lede">Even without hooks. If your companion was compacted and you want the whole conversation back, it is very likely still there. Here is how we get it back.</p>
@@ -77,7 +78,7 @@ footer{color:var(--muted);font-size:.9rem}
 
 <section>
   <h2><span class="n">02</span> Find the session file</h2>
-  <div class="block"><div class="lbl">Where it lives<button class="copy">Copy</button></div><pre>~/.claude/projects/&lt;folder&gt;/&lt;session-id&gt;.jsonl</pre></div>
+  <div class="block"><div class="lbl">Where it lives<button class="copy haus-knopf">Copy</button></div><pre>~/.claude/projects/&lt;folder&gt;/&lt;session-id&gt;.jsonl</pre></div>
   <ul>
     <li>The folder is the full path to the room with every <code>/</code> turned into <code>-</code>.</li>
     <li>The commands on this page are for macOS and Linux. On Windows the folder is <code>%USERPROFILE%\.claude\projects\</code>, and you usually type <code>py</code> instead of <code>python3</code>. See <a href="index.html#s14">On Windows</a>.</li>
@@ -93,11 +94,11 @@ footer{color:var(--muted);font-size:.9rem}
 <section>
   <h2><span class="n">04</span> Save the original, then make a copy to cut</h2>
   <p>Open a Terminal in the thread folder and run these two lines. Replace <code>&lt;session-id&gt;</code> with the file name.</p>
-  <div class="block wrap"><div class="lbl">Terminal<button class="copy">Copy</button></div><pre>mkdir -p ~/rescue-backup &amp;&amp; cp &lt;session-id&gt;.jsonl ~/rescue-backup/
+  <div class="block wrap"><div class="lbl">Terminal<button class="copy haus-knopf">Copy</button></div><pre>mkdir -p ~/rescue-backup &amp;&amp; cp &lt;session-id&gt;.jsonl ~/rescue-backup/
 cp &lt;session-id&gt;.jsonl ~/rescue-backup/COPY.jsonl</pre></div>
   <p>The first file in <code>~/rescue-backup</code> is your safe original. Don't touch it. From now on you only work on <code>COPY.jsonl</code>.</p>
   <p>Curious how often this thread was compacted? This counts it:</p>
-  <div class="block"><div class="lbl">Terminal<button class="copy">Copy</button></div><pre>grep -c '"subtype":"compact_boundary"' ~/rescue-backup/COPY.jsonl</pre></div>
+  <div class="block"><div class="lbl">Terminal<button class="copy haus-knopf">Copy</button></div><pre>grep -c '"subtype":"compact_boundary"' ~/rescue-backup/COPY.jsonl</pre></div>
 </section>
 
 <section>
@@ -105,10 +106,10 @@ cp &lt;session-id&gt;.jsonl ~/rescue-backup/COPY.jsonl</pre></div>
   <p>Go to the backup folder first: <code>cd ~/rescue-backup</code>. Then pick one of these two.</p>
   <h3>Undo only the most recent compaction (usually what you want)</h3>
   <p>Cuts right before the <b>last</b> <code>compact_boundary</code> line. Older compactions stay as they were. Only the last one is undone.</p>
-  <div class="block wrap"><div class="lbl">Terminal · most recent<button class="copy">Copy</button></div><pre>python3 -c "import sys;L=open(sys.argv[1],encoding='utf-8').readlines();i=max(n for n,l in enumerate(L) if '\"subtype\":\"compact_boundary\"' in l);open(sys.argv[2],'w',encoding='utf-8').writelines(L[:i]);print('cut before line',i+1,'of',len(L))" COPY.jsonl RESCUED.jsonl</pre></div>
+  <div class="block wrap"><div class="lbl">Terminal · most recent<button class="copy haus-knopf">Copy</button></div><pre>python3 -c "import sys;L=open(sys.argv[1],encoding='utf-8').readlines();i=max(n for n,l in enumerate(L) if '\"subtype\":\"compact_boundary\"' in l);open(sys.argv[2],'w',encoding='utf-8').writelines(L[:i]);print('cut before line',i+1,'of',len(L))" COPY.jsonl RESCUED.jsonl</pre></div>
   <h3>Go back before the first compaction</h3>
   <p>Cuts right before the <b>first</b> <code>compact_boundary</code> line. If the thread was compacted only once, both commands do the same thing.</p>
-  <div class="block wrap"><div class="lbl">Terminal · first<button class="copy">Copy</button></div><pre>python3 -c "import sys;L=open(sys.argv[1],encoding='utf-8').readlines();i=next(n for n,l in enumerate(L) if '\"subtype\":\"compact_boundary\"' in l);open(sys.argv[2],'w',encoding='utf-8').writelines(L[:i]);print('cut before line',i+1,'of',len(L))" COPY.jsonl RESCUED.jsonl</pre></div>
+  <div class="block wrap"><div class="lbl">Terminal · first<button class="copy haus-knopf">Copy</button></div><pre>python3 -c "import sys;L=open(sys.argv[1],encoding='utf-8').readlines();i=next(n for n,l in enumerate(L) if '\"subtype\":\"compact_boundary\"' in l);open(sys.argv[2],'w',encoding='utf-8').writelines(L[:i]);print('cut before line',i+1,'of',len(L))" COPY.jsonl RESCUED.jsonl</pre></div>
   <ul>
     <li>It prints something like <code>cut before line 511 of 530</code>. That's good.</li>
     <li>If you get an error instead, the file has no compaction in it, and nothing was written.</li>
@@ -120,7 +121,7 @@ cp &lt;session-id&gt;.jsonl ~/rescue-backup/COPY.jsonl</pre></div>
 <section>
   <h2><span class="n">06</span> Put it back and resume</h2>
   <p>Copy <code>RESCUED.jsonl</code> back into the thread folder, under the original session file name:</p>
-  <div class="block wrap"><div class="lbl">Terminal<button class="copy">Copy</button></div><pre>cp ~/rescue-backup/RESCUED.jsonl ~/.claude/projects/&lt;folder&gt;/&lt;session-id&gt;.jsonl</pre></div>
+  <div class="block wrap"><div class="lbl">Terminal<button class="copy haus-knopf">Copy</button></div><pre>cp ~/rescue-backup/RESCUED.jsonl ~/.claude/projects/&lt;folder&gt;/&lt;session-id&gt;.jsonl</pre></div>
   <p>Then resume the session as usual. Your companion sees the conversation as it was before the compaction.</p>
 </section>
 
@@ -152,7 +153,7 @@ cp &lt;session-id&gt;.jsonl ~/rescue-backup/COPY.jsonl</pre></div>
     <li>Save the original somewhere safe, like in step 04 above. Don't touch the live file. Editing it can make things worse.</li>
     <li>Run our script on the thread file. It only reads the original and writes a new file next to it.</li>
   </ol>
-  <div class="block wrap"><div class="lbl">Terminal<button class="copy">Copy</button></div><pre>python3 rescue_after_flag.py ~/.claude/projects/&lt;folder&gt;/&lt;session-id&gt;.jsonl</pre></div>
+  <div class="block wrap"><div class="lbl">Terminal<button class="copy haus-knopf">Copy</button></div><pre>python3 rescue_after_flag.py ~/.claude/projects/&lt;folder&gt;/&lt;session-id&gt;.jsonl</pre></div>
   <ul>
     <li>Script: <a href="https://github.com/Ashema03/companion-house/blob/main/scripts/rescue_after_flag.py">rescue_after_flag.py</a>. It finds the last answer that ended normally (<code>stop_reason</code> <code>end_turn</code>) and is not an error, a refusal or a classifier stop. It keeps everything up to there, gives every kept line a new <code>sessionId</code>, and saves the copy as <code>&lt;new-id&gt;.jsonl</code>.</li>
     <li>It checks the copy: valid lines, a clean last answer, no error lines at the end, one session ID, original unchanged. Then it prints <code>claude --resume &lt;new-id&gt;</code>.</li>
